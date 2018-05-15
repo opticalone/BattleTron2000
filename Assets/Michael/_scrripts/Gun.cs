@@ -6,8 +6,16 @@ public class Gun : MonoBehaviour {
 
     public float damage = 10f;
     public float range = 100f;
+	public float bulletForce = 40f;
+	public GameObject ammo;
+
 
     public Transform cannonEnd;
+
+	private void Start()
+	{
+		
+	}
 
     private void Update()
     {
@@ -21,13 +29,16 @@ public class Gun : MonoBehaviour {
     {
         RaycastHit hit;
 
-       if(Physics.Raycast(cannonEnd.position, cannonEnd.right, out hit))
+		if(Physics.Raycast(cannonEnd.position, cannonEnd.forward, out hit))
         {
+			
+		
             Debug.Log(hit.transform.name);
             Debug.DrawLine(cannonEnd.position, hit.transform.position);
         }
             
-
-        
+		GameObject bullet = Instantiate (ammo,cannonEnd.transform.position,cannonEnd.transform.rotation);
+		Rigidbody rb = bullet.GetComponent<Rigidbody> ();
+		rb.AddForce (-transform.up * bulletForce, ForceMode.Impulse);
     }
 }
